@@ -15,7 +15,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.worker.framework.api.Worker;
+import com.worker.framework.internalapi.Worker;
 import com.worker.shared.WorkMessage;
 import com.worker.shared.WorkMessageArg;
 

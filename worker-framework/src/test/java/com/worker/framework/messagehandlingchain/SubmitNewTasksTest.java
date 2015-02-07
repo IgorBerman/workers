@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.collect.ImmutableList;
-import com.worker.framework.api.RoutingProperties;
+import com.worker.framework.internalapi.RoutingProperties;
 import com.worker.framework.tenant.MultiTenantAmqpTemplate;
 import com.worker.shared.WorkMessage;
 

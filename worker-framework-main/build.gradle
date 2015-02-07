@@ -1,0 +1,42 @@
+apply plugin: 'java'
+apply plugin: 'distribution'
+
+dependencies {
+    compile project.spec['spring_context']
+    compile project.spec['javax_inject']
+    
+    compile project(':tenant-framework-api')
+    compile project(':worker-framework-api')
+    compile project(':worker-framework')
+    
+    runtime project(':tenant-framework')
+    runtime project(':tenant-dal')
+
+    testCompile project.spec['commons_exec']
+    
+}
+
+//eventhough we applied PythonPlugin, but probably it's some collision between it and java-library-distribution, so
+//we need to configure once again distributions
+distributions.main.contents {
+    exclude('**/*.pyc')
+    into('lib') {
+        from(jar)
+        from(project.configurations.runtime)
+    }
+    from ('.') {
+        exclude 'test/**'
+        exclude 'src/**'
+        exclude 'build/**'
+        exclude '*.gradle'
+        exclude '.*'
+        exclude 'bin'
+        exclude 'worker_framework/test/**'
+    }
+}
+
+build.dependsOn 'distZip'
+
+test {
+    systemProperties['com.workers.logs'] = '/tmp'
+}

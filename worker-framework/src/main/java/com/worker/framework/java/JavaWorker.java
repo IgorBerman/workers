@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.worker.framework.api.WorkMessageProcessor;
-import com.worker.framework.api.Worker;
+import com.worker.framework.internalapi.Worker;
 import com.worker.shared.WorkMessage;
 
 

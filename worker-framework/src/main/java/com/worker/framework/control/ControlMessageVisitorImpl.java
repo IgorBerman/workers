@@ -12,7 +12,7 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Optional;
-import com.worker.framework.api.RoutingProperties;
+import com.worker.framework.internalapi.RoutingProperties;
 import com.worker.framework.service.WorkMessageJoinService;
 import com.worker.shared.ControlMessage;
 import com.worker.shared.ControlMessageVisitor;

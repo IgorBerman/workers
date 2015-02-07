@@ -1,9 +1,9 @@
-package com.worker.framework;
+package com.worker.cli;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.worker.framework.api.WorkerProperties;
+import com.worker.framework.internalapi.WorkerProperties;
 import com.worker.shared.WorkersConstants;
 
 
@@ -45,11 +45,7 @@ public class WorkerPropertiesImpl implements WorkerProperties {
 
     @Value("${tenant.id.header}") private String tenantIdHeader;
 
-    @Value("${code.dir}") private String codeDir;
-
     @Value("${python.log.pathprefix}") private String pythonLogPathPrefix;
-
-    @Value("${python.workerpy.path}") private String pythonWorkerPyPath;
 
     @Value("${python.bin.path}") private String pythonBinPath;
     
@@ -128,11 +124,6 @@ public class WorkerPropertiesImpl implements WorkerProperties {
     }
 
     @Override
-    public String getCodeDir() {
-        return codeDir;
-    }
-
-    @Override
     public String getPythonLogPathPrefix() {
         return pythonLogPathPrefix;
     }
@@ -140,11 +131,6 @@ public class WorkerPropertiesImpl implements WorkerProperties {
     @Override
     public String getPythonBinPath() {
         return pythonBinPath;
-    }
-
-    @Override
-    public String getPythonWorkerPyPath() {
-        return pythonWorkerPyPath;
     }
 
     @Override

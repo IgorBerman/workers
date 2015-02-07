@@ -1,6 +1,8 @@
 package com.worker.framework;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
 
@@ -35,10 +37,10 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.tenant.framework.CurrentTenant;
 import com.tenant.framework.TenantDbParamsTemplateResolver;
 import com.tenant.framework.TenantIdsResolver;
-import com.worker.framework.api.ControlQueueMessageListener;
-import com.worker.framework.api.Worker;
-import com.worker.framework.api.WorkerProperties;
-import com.worker.framework.api.WorkerQueueMessageListener;
+import com.worker.framework.internalapi.ControlQueueMessageListener;
+import com.worker.framework.internalapi.Worker;
+import com.worker.framework.internalapi.WorkerProperties;
+import com.worker.framework.internalapi.WorkerQueueMessageListener;
 import com.worker.framework.messagehandlingchain.ExecuteWorker;
 import com.worker.framework.messagehandlingchain.SubmitJoinMessage;
 import com.worker.framework.messagehandlingchain.SubmitNewTasks;
@@ -57,7 +59,8 @@ import com.worker.framework.tenant.MultiTenantMessageListenerAdapter;
 
 @Configuration
 public class WorkerFrameworkSpringConfiguration {    
-    private static final String THREAD_SCOPE = "thread";//used also in ctx.xml
+    private static final String WORKER_FRAMEWORK_WORKER_WORKER_PY = "worker_framework/worker/worker.py";
+	private static final String THREAD_SCOPE = "thread";//used also in ctx.xml
     private static final String DEFAULT_EXCHANGE = "";
     @Inject private WorkerProperties properties;
     @Inject private CurrentTenant currentTenant;
@@ -190,8 +193,13 @@ public class WorkerFrameworkSpringConfiguration {
                     templateResolver.resolvePassword(properties.getDatabasePassword(), tenantId)));
         }
 
-        return new PythonWorkerConf(properties.getCodeDir(), properties.getPidDir(), connectionUrls,
-                properties.getPythonBinPath(), properties.getPythonWorkerPyPath(), properties.getPythonLogPathPrefix());
+        try {
+        	File workerPyFile = new File(getClass().getClassLoader().getResource(WORKER_FRAMEWORK_WORKER_WORKER_PY).getPath());
+			return new PythonWorkerConf(workerPyFile.getParentFile().getParentFile().getParentFile().getAbsolutePath(), properties.getPidDir(), connectionUrls,
+					properties.getPythonBinPath(), workerPyFile.getAbsolutePath(), properties.getPythonLogPathPrefix());
+		} catch (Exception e) {
+			throw new IllegalStateException("Unable to get path  of worker.py", e);
+		}
     }
 
     @Bean

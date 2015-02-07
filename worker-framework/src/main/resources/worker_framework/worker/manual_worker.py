@@ -38,8 +38,7 @@ if __name__ == '__main__':
     """
     worker = ManualWorker(DEFAULT_SUB_MODULES_TO_SCAN)
     tenantId = 'sww'
-    db_url = "postgresql://%s:%s@%s/%s_db" % (tenantId, tenantId, "localhost", tenantId)
-    task = "NeighboringSubnetsEventAnalysis"     
+    db_url = "postgresql://%s:%s@%s/%s_db" % (tenantId, tenantId, "localhost", tenantId)    
     args = [WorkMessageArg(name="network_id", value=62400622), WorkMessageArg(name="end_time_bound", value=1410595320000)]
     joinState = None
     wm = WorkMessage(task, args, joinState)

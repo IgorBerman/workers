@@ -6,7 +6,7 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.retry.RepublishMessageRecoverer;
 import org.springframework.amqp.support.converter.MessageConverter;
 
-import com.worker.framework.api.RoutingProperties;
+import com.worker.framework.internalapi.RoutingProperties;
 import com.worker.framework.tenant.MultiTenantAmqpTemplate;
 import com.worker.shared.JoinedTaskSucceded;
 import com.worker.shared.WorkMessage;

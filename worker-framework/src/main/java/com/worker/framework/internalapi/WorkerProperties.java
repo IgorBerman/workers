@@ -1,4 +1,4 @@
-package com.worker.framework.api;
+package com.worker.framework.internalapi;
 
 
 public interface WorkerProperties extends RoutingProperties {
@@ -25,14 +25,10 @@ public interface WorkerProperties extends RoutingProperties {
 
     String getTenantIdHeader();
 
-    String getCodeDir();
-
     String getPythonLogPathPrefix();
 
     String getPythonBinPath();
 
-    String getPythonWorkerPyPath();
-    
     boolean isPythonLogsCleanup();
 
     String getDatabaseHost();

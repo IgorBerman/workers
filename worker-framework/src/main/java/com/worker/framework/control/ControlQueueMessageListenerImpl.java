@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import com.google.common.base.Throwables;
-import com.worker.framework.api.ControlQueueMessageListener;
+import com.worker.framework.internalapi.ControlQueueMessageListener;
 import com.worker.shared.ControlMessage;
 import com.worker.shared.ControlMessageVisitor;
 

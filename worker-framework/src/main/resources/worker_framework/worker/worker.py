@@ -74,15 +74,19 @@ class Worker(object):
         fh.setFormatter(formatter)
         self._logger.addHandler(fh)
         self._pid = os.getpid()
-        self._ppid = os.getppid()
+		if os.name != 'nt':
+			self._ppid = os.getppid()
+		else:
+			self._ppid = -1
         threading.Timer(60, self._check_parent).start()
         sys.stdout = StreamToLogger(self._logger)
         self.processor_provider = ProcessorsProvider(self._logger, sub_modules_to_scan)
         
     def _check_parent(self):
-        if (self._ppid != os.getppid()):
-            self._logger.error("parent has been changed, exiting..")
-            os._exit(-1)
+		if os.name!='nt':
+			if (self._ppid != os.getppid()):
+				self._logger.error("parent has been changed, exiting..")
+				os._exit(-1)
         
     def _ack(self, workMessage, triggeredTasks):
         ack_response = {java_python_tokens.COMMAND: java_python_tokens.ACK}

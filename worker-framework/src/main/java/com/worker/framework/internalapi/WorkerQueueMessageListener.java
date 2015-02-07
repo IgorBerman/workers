@@ -1,4 +1,4 @@
-package com.worker.framework.api;
+package com.worker.framework.internalapi;
 
 import com.worker.shared.WorkMessage;
 

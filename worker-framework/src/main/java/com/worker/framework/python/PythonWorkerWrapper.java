@@ -6,7 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Component;
 
-import com.worker.framework.api.Worker;
+import com.worker.framework.internalapi.Worker;
 import com.worker.shared.WorkMessage;
 
 

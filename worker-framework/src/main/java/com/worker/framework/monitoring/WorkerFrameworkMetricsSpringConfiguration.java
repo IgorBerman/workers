@@ -24,7 +24,7 @@ import com.codahale.metrics.jvm.MemoryUsageGaugeSet;
 import com.codahale.metrics.jvm.ThreadStatesGaugeSet;
 import com.google.common.base.Strings;
 import com.tenant.framework.CurrentTenant;
-import com.worker.framework.api.WorkerProperties;
+import com.worker.framework.internalapi.WorkerProperties;
 
 
 @Configuration

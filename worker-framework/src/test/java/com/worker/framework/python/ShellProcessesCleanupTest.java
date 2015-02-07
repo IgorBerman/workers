@@ -21,7 +21,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.io.Files;
-import com.worker.framework.api.WorkerProperties;
+import com.worker.framework.internalapi.WorkerProperties;
 
 
 @RunWith(MockitoJUnitRunner.class)

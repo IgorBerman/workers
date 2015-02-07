@@ -37,7 +37,7 @@
 		p:urlTenantTemplate="jdbc:${database.dialect}://${database.host}/${database.name}?ApplicationName=workers&amp;characterEncoding=utf8&amp;stringtype=unspecified"
 		p:usernameTenantTemplate="${database.username}" 
 		p:passwordTenantTemplate="${database.password}"
-		p:poolPingQuery="select 1"
+		p:poolPingQuery="select 1 from event limit 1"
 		p:poolPingEnabled="true"
 		p:poolPingConnectionsNotUsedFor="20000"
 		p:poolMaximumCheckoutTime="200000"

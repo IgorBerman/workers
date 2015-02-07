@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.Phased;
 import org.springframework.stereotype.Component;
 
-import com.worker.framework.api.WorkerProperties;
+import com.worker.framework.internalapi.WorkerProperties;
 
 
 @Component
