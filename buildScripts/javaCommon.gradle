@@ -1,0 +1,61 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'  
+apply from: buildScripts('buildSpec.gradle')
+
+repositories {
+  mavenCentral()
+}
+
+//sourceCompatibility = 1.8
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+test {
+  systemProperty 'user.timezone', 'GMT'
+  systemProperty 'file.encoding', 'UTF-8'
+}
+
+
+dependencies {
+  compile project.spec['slf4j']
+  compile project.spec['logback']
+  compile project.spec['logback_classics']
+  
+  testCompile project.spec['junit']
+  testCompile project.spec['mockito']
+}
+
+
+eclipse {
+		project {
+			file {
+			withXml { xmlProvider ->
+				Node project = xmlProvider.asNode()
+				Node filter = project.appendNode('filteredResources').appendNode('filter')
+				filter.appendNode('id', 1363536724435) 
+				filter.appendNode('name', '')
+				filter.appendNode('type', 10)
+				Node matcher = filter.appendNode('matcher')
+				matcher.appendNode('id', 'org.eclipse.ui.ide.multiFilter')
+				matcher.appendNode('arguments', '1.0-name-matches-false-false-build')
+			}
+		}
+	}
+}
+
+//http://www.practicalgradle.org/blog/2011/06/incremental-tests-with-jenkins/ && https://issues.jenkins-ci.org/browse/JENKINS-6268
+task updateTestLastModificationAtJenkins(dependsOn: test) {
+    description '===if env contains JENKINS_HOME(usually at jenkins) : Update the timestamp of the test results also if UP-TO-DATE ==='
+    if (System.env.JENKINS_HOME != null) {
+        inputs.files test.outputs.files
+        doLast{
+            def timestamp = System.currentTimeMillis()
+            if (testResultsDir.exists()) {
+                println "Updating timestamp for test results to make jenkins happy"
+                testResultsDir.eachFile { it.lastModified = timestamp }
+            }
+        }
+        build.dependsOn(updateTestLastModificationAtJenkins)    
+    }
+}

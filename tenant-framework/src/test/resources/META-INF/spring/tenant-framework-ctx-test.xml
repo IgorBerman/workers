@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+    <context:annotation-config />
+    
+    <context:component-scan base-package="com.tenant.framework.test" />
+    
+    <bean id="log4jInitializer"
+        class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"
+        p:staticMethod="org.springframework.util.Log4jConfigurer.initLogging"
+        p:arguments="classpath:log4j.xml" />
+    
+    <bean id="currentTenant" class="com.tenant.framework.CurrentTenantThreadLocal" />
+
+	<bean id="tenantScope" class="com.tenant.framework.TenantScope"
+	   p:currentTenant-ref="currentTenant"/>
+
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="tenant">
+                    <ref bean="tenantScope" />
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+	<bean id="tenantIdsResolver" class="com.tenant.framework.StaticTenantIdsResolver">
+		<constructor-arg>
+			<list>
+				<value>tenantA</value>
+				<value>tenantB</value>
+				<value>tenantC</value>
+			</list>
+		</constructor-arg>
+	</bean>
+
+</beans>

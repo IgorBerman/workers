@@ -1,0 +1,11 @@
+include 'tenant-dal'
+include 'tenant-framework'
+include 'tenant-framework-api'
+include 'tenant-sample-app'
+
+include 'worker-framework'
+include 'worker-framework-api'
+include 'worker-framework-shared'
+include 'worker-framework-client'
+
+include 'worker-test-processors'

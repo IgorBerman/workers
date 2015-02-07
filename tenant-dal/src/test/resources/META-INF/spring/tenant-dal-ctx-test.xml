@@ -1,0 +1,83 @@
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<bean
+		id="log4jInitializer"
+		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"
+		p:staticMethod="org.springframework.util.Log4jConfigurer.initLogging"
+		p:arguments="classpath:log4j.xml" />
+
+	<bean
+		id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="tenantTestDataSource"			
+		p:typeAliasesPackage="com.tenant.dal.test.aliases"
+		p:typeHandlersPackage="com.tenant.dal.test.typeHandlers"/>
+
+	<bean
+		class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+		p:basePackage="com.tenant.dal.test.mapper" />
+
+    <bean id="currentTenant" class="com.tenant.framework.CurrentTenantThreadLocal"/>
+    
+    <bean id="tenantIdsResolver" class="com.tenant.framework.StaticTenantIdsResolver">
+    <constructor-arg>
+        <list>
+            <value>tenantA</value>
+            <value>tenantB</value>
+            <value>tenantC</value>
+        </list>
+    </constructor-arg>
+    </bean>
+    
+	<bean id="tenantTestDataSource" class="com.tenant.dal.TenantRoutingDataSource"
+	       p:tenantIdsResolver-ref="tenantIdsResolver"
+	       p:dataSourceLookup-ref="tenantDataSourceLookup"
+	       p:currentTenant-ref="currentTenant"/>
+	       
+	   <bean id="tenantDataSourceLookup"
+        class="com.tenant.dal.TenantDataSourceLookup" 
+        p:driver="org.h2.Driver"
+        p:urlTenantTemplate="jdbc:h2:mem:$[tenantId]_db;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL;mvcc=true;autocommit=off;TRACE_LEVEL_SYSTEM_OUT=2"
+        p:usernameTenantTemplate="$[tenantId]"
+        p:passwordTenantTemplate="$[tenantId]" 
+        p:poolPingEnabled="true"
+        p:poolPingQuery="select 1 from test limit 1"
+        p:poolPingConnectionsNotUsedFor="20000"
+        p:poolMaximumCheckoutTime="200000"
+        p:poolMaximumActiveConnections="50"
+        p:poolMaximumIdleConnections="1"
+        />
+        
+        
+        <!-- open http://localhost:11111 and use jdbc:h2:tcp://localhost:11112/mem:tenantA_db as connection string with tenantA tenantA as u/p-->
+        <bean id="org.h2.tools.Server-WebServer" class="org.h2.tools.Server" 
+            factory-method="createWebServer" depends-on="tenantTestDataSource" 
+            init-method="start" lazy-init="false">
+            <constructor-arg value="-web,-webPort,11111" />
+        </bean>
+        
+       <bean id="org.h2.tools.Server-TcpServer" class="org.h2.tools.Server" 
+            factory-method="createTcpServer" init-method="start" 
+            destroy-method="stop" depends-on="org.h2.tools.Server-WebServer">
+            <constructor-arg value="-tcp,-tcpAllowOthers,-tcpPort,11112"/>
+        </bean>
+
+</beans>

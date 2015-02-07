@@ -1,0 +1,34 @@
+apply plugin: 'base'
+
+project.ext {
+    predefinedDirsExclude = ['**/.hg', '**/*.pyc', '**/*.orig','python/test/*', '**/.settings/**']
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.0'
+}
+
+def buildScripts(child){
+  def parent = project.projectDir
+  "${parent}/buildScripts/${child}"
+}
+
+def buildTime() {
+       def df = new java.text.SimpleDateFormat("yyyyMMddHHmm") //you can change it
+       df.setTimeZone(TimeZone.getTimeZone("UTC"))
+       return df.format(new Date())
+}
+
+subprojects {
+	if(!project.path.contains('analysis')){
+		apply from: buildScripts('javaCommon.gradle')
+	}
+	apply plugin: 'eclipse'
+	tasks.eclipse.dependsOn cleanEclipse  
+}
+
+buildscript {
+  repositories {
+    mavenLocal()
+  }
+}

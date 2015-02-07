@@ -1,0 +1,18 @@
+apply plugin: 'java'
+apply plugin: 'distribution'
+
+dependencies {
+    compile project.spec['guava']
+    compile project.spec['javax_inject']
+    compile project.spec['spring_context']
+    compile project.spec['mybatis']
+    
+    compile project(':worker-framework-api')
+}
+distributions.main.contents {
+    into('lib') {
+        from(jar)
+        from(project.configurations.runtime)
+    }
+}
+build.dependsOn 'distZip'

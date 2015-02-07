@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+	
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="tenantDataSource" />
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:configLocation="classpath:/META-INF/mybatis-config.xml"
+		p:dataSource-ref="tenantDataSource" />
+				
+	<bean id="tenantDataSource" class="com.tenant.dal.TenantRoutingDataSource"
+		p:tenantIdsResolver-ref="tenantIdsResolver" 
+		p:dataSourceLookup-ref="tenantDataSourceLookup"
+		p:currentTenant-ref="currentTenant" />
+
+    <alias name="tenantDataSource" alias="confDataSource"/>
+
+	<bean id="tenantDataSourceLookup" class="com.tenant.dal.TenantDataSourceLookup"
+		p:driver="org.postgresql.Driver"
+		p:urlTenantTemplate="jdbc:${database.dialect}://${database.host}/${database.name}?ApplicationName=workers&amp;characterEncoding=utf8&amp;stringtype=unspecified"
+		p:usernameTenantTemplate="${database.username}" 
+		p:passwordTenantTemplate="${database.password}"
+		p:poolPingQuery="select 1 from event limit 1"
+		p:poolPingEnabled="true"
+		p:poolPingConnectionsNotUsedFor="20000"
+		p:poolMaximumCheckoutTime="200000"
+		p:poolMaximumActiveConnections="10" 
+		p:poolMaximumIdleConnections="1"
+		p:templateResolver-ref="templateResolver"
+		destroy-method="destroy" />
+
+</beans>
