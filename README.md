@@ -4,7 +4,7 @@ Workers framework for multitenant processing of "work messages" by "processors".
 This is extract from internal production code.
 
 ## quick start
-* https://github.com/rapen/workers.git
+* git clone https://github.com/rapen/workers.git
 * cd workers
 * vagrant up
 * gradlew build
