@@ -3,7 +3,8 @@
  
 # Vagrantfile API/syntax version. Don't touch unless you know what you're doing!
 VAGRANTFILE_API_VERSION = "2"
- 
+
+
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # All Vagrant configuration is done here. The most common configuration
   # options are documented and commented below. For a complete reference,
@@ -20,9 +21,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   #config.vm.network :forwarded_port, guest: 80, host: 8080
-  config.vm.network :forwarded_port, guest: 15672, host: 15672, auto_correct: true
-  config.vm.network :forwarded_port, guest: 5672, host: 5672,   auto_correct: true
-  config.vm.network :forwarded_port, guest: 5432, host: 5432,   auto_correct: true
+  config.vm.network :forwarded_port, guest: 15672, host: 15672
+  config.vm.network :forwarded_port, guest: 5672, host: 5672
+  config.vm.network :forwarded_port, guest: 5432, host: 5432
  
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -32,12 +33,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "docker" do |d|
     d.pull_images "rabbitmq"
 	d.pull_images "postgres"
-
 	d.run "postgres",
-      args: "-e POSTGRES_PASSWORD=mysecretpassword"
+      args: "-e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432"
 	  
 	d.run "rabbitmq:3-management",
-      args: "--name rabbitmq -e RABBITMQ_NODENAME=my-rabbit",
+      args: "--name rabbitmq -e RABBITMQ_NODENAME=my-rabbit -p 5672:5672 -p 15672:15672",
 	  auto_assign_name: false
 
   end
