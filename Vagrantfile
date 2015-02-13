@@ -41,4 +41,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	  auto_assign_name: false
 
   end
+  
+  config.vm.provision "setup",type: "fabric" do |fabric|
+	fabric.fabric_path = "fab -D"
+	fabric.fabfile_path = "./fabfile.py"
+	fabric.tasks = ["provision", ]
+  end
+  
+  config.vm.provision "deploy",type: "fabric" do |fabric|
+	fabric.fabric_path = "fab -D"
+	fabric.fabfile_path = "./fabfile.py"
+	fabric.tasks = ["deploy", ]
+  end
 end
