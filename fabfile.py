@@ -4,14 +4,18 @@ from fabric.contrib.console import confirm
 from fabric.api import *
 import os
 
-def deploy():
+def deploy(user="vagrant", group="vagrant"):
 	code_dir = '/u/apps/workers'
 	sudo("mkdir -p %s " % code_dir)
-	sudo("chown vagrant:vagrant %s " % code_dir)
+	sudo("chown %s:%s %s " % (user,group, code_dir))
 	put('worker-framework-main/build/distributions/worker-framework-main.tar', code_dir)
 	with cd(code_dir):
-		run('tar -xvf worker-framework-main.tar')
-		run('chmod u+x worker-framework-main/worker.sh')
+		new_release_name = run('date +%Y_%m_%d_%H_%M_%S')
+		run('mkdir %s' % new_release_name)
+		run('tar -xvf worker-framework-main.tar -C %s' % new_release_name)
+		run('rm -rf current && ln -s %s current' % new_release_name)
+		run('rm -rf `ls -t | tail -n +6`')
+		sudo("chown -R %s:%s %s " % (user,group, new_release_name))
 
 def provision():
 	install_java8()
