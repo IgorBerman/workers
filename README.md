@@ -15,13 +15,14 @@ This is extract from internal production code.
 
 
 ## provisioning
-For local development vagrant can be used(it uses 2 docker containers for rabbitmq & postgres)
-* vagrant provision --provision-with=setup
+for local development virtual machine is used, it will have inner docker containers with postgres & rabbitmq
+* vagrant provision --provision-with=docker - will create two inner containers(postgres & rabbitmq)
+* vagrant provision --provision-with=setup - will install necessary packages(e.g. java)
 * or: fab -D -H 192.168.33.10 -u vagrant -i .vagrant/machines/default/virtualbox/private_key provision
 
 ## deployment
-* ./gradlew distT
-* vagrant provision --provision-with=deploy
+* ./gradlew distT - creates artifact
+* vagrant provision --provision-with=deploy - deploys artifact into virtual machine and starts consumers
 * or: fab -D -H 192.168.33.10 -u vagrant -i .vagrant/machines/default/virtualbox/private_key deploy
 
 ## TODO 
