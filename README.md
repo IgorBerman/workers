@@ -15,11 +15,17 @@ This is extract from internal production code.
 
 
 ## provisioning
-For local development vagrant can be used(it uses 2 docker containers for rabbitmq & postgres).
+For local development vagrant can be used(it uses 2 docker containers for rabbitmq & postgres)
+vagrant provision --provision-with=setup
+or 
+fab -D -H 192.168.33.10 -u vagrant -i .vagrant/machines/default/virtualbox/private_key provision
 
 ## deployment
+./gradlew distT
+vagrant provision --provision-with=deploy
+or
+fab -D -H 192.168.33.10 -u vagrant -i .vagrant/machines/default/virtualbox/private_key deploy
 
 ## TODO 
-- deployment not tested and not specified
 - documentation & examples
 - refactoring & cleanup from postgres(currently it's dependent on postgres for saving internal state when tasks need to "join"), we can use redis as well for this
