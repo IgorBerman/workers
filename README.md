@@ -10,8 +10,8 @@ This is extract from internal production code.
 ## quick start
 * git clone https://github.com/rapen/workers.git
 * cd workers
+* ./gradlew build - not sure if all tests are passing, you can ./gradlew distT
 * vagrant up
-* gradlew build
 
 
 ## provisioning
