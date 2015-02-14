@@ -3,6 +3,8 @@ from fabric.api import local, settings, abort, run, cd
 from fabric.contrib.console import confirm
 from fabric.api import *
 import os
+import StringIO
+#fab -D -H 192.168.33.10 -u vagrant -i .vagrant/machines/default/virtualbox/private_key install_supervisor
 
 def deploy(user="vagrant", group="vagrant"):
 	code_dir = '/u/apps/workers'
@@ -16,9 +18,21 @@ def deploy(user="vagrant", group="vagrant"):
 		run('rm -rf current && ln -s %s current' % new_release_name)
 		run('rm -rf `ls -t | tail -n +6`')
 		sudo("chown -R %s:%s %s " % (user,group, new_release_name))
-
+		sudo('supervisorctl restart workers')
+		
 def provision():
 	install_java8()
+	install_supervisor()
+	
+def install_supervisor():
+	sudo('apt-get install -y supervisor')
+	put(StringIO.StringIO('''[program:workers]
+command=/u/apps/workers/current/worker-framework-main/bin/worker-framework-main
+stderr_logfile = /var/log/workers-stderr.log
+stdout_logfile = /var/log/workers-stdout.log
+''')\
+	, '/etc/supervisor/conf.d/workers.conf',use_sudo=True)
+	
 	
 def install_java8():
 	'''
