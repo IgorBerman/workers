@@ -28,6 +28,8 @@ def install_supervisor():
 	sudo('apt-get install -y supervisor')
 	put(StringIO.StringIO('''[program:workers]
 command=/u/apps/workers/current/worker-framework-main/bin/worker-framework-main
+autostart=true
+autorestart=true
 stderr_logfile = /var/log/workers-stderr.log
 stdout_logfile = /var/log/workers-stdout.log
 ''')\
