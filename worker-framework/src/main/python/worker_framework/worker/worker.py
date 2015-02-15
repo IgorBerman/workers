@@ -118,7 +118,7 @@ class Worker(object):
         """
         run suitable processor
         """
-        processor_name = self.processor_task_name_resolver.get_procssor_name(workMessage.task)
+        processor_name = workMessage.task
         if not self.processor_provider.has_processor(processor_name):
             raise UnsupportedProcessorException(processor_name)
         return self.processor_provider.get_processor(processor_name).process(workMessage)

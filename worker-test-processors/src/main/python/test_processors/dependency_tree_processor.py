@@ -1,7 +1,6 @@
 import time
 from worker_framework.processors.base_processor import BaseProcessor
 from worker_framework.worker.work_message import WorkMessageArg, WorkMessage
-from numpy import math
 
 
 class DependencyTreeProcessor(BaseProcessor):
@@ -19,7 +18,7 @@ class DependencyTreeProcessor(BaseProcessor):
             raise ValueError("i need to fail")
         time.sleep(1)
         print ",".join([str(my_number),str(tree_height),str(i_need_to_fail)])
-        if my_number == 0 or math.log(my_number, 2) < tree_height - 1:
+        if my_number == 0 or my_number <= tree_height - 1:
             print 'producing children ',
             left_child = WorkMessage(work_message.task, [WorkMessageArg('my_number', 2*my_number), WorkMessageArg('tree_height', tree_height), WorkMessageArg('i_need_to_fail', i_need_to_fail)])
             right_child = WorkMessage(work_message.task, [WorkMessageArg('my_number', 2*my_number+1), WorkMessageArg('tree_height', tree_height), WorkMessageArg('i_need_to_fail', i_need_to_fail)])

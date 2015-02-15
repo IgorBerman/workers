@@ -55,7 +55,8 @@ class ClassLoader(object):
 
 
     def _skip_package(self, modname):
-        return not any(map(lambda x:x in modname, self._modules_to_scan)) or modname == self._current_module or modname.startswith("analysis_research")
+        return not any(map(lambda x:x in modname, self._modules_to_scan)) \
+            and modname != self._current_module and "processors" not in modname and "worker" not in modname
 
     def load(self, base_class):
         self._hide_stdout()
