@@ -29,5 +29,6 @@ for local development virtual machine is used, it will have inner docker contain
 * or: fab -D -H 192.168.33.10 -u vagrant -i .vagrant/machines/default/virtualbox/private_key deploy
 
 ## TODO 
+- move to java 8 syntax where appropriate
 - documentation & examples
 - refactoring & cleanup from postgres(currently it's dependent on postgres for saving internal state when tasks need to "join"), we can use redis as well for this
