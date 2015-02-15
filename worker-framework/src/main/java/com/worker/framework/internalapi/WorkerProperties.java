@@ -55,4 +55,8 @@ public interface WorkerProperties extends RoutingProperties {
 
     int getConcurrentLowConsumers();
 
+	String getPythonCodeDir();
+
+	String getPythonSubprocessMain();
+
 }

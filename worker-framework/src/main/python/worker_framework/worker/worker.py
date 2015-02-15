@@ -9,6 +9,7 @@ from worker_framework.class_provider.class_provider import ProcessorsProvider, \
     UnsupportedProcessorException
 from worker_framework.worker.work_message import WorkMessage, WorkMessageArg, \
     WorkMessagesJoinState
+import json
 
 
 #if module contains one of sub modules it will be scanned
@@ -18,6 +19,13 @@ DEFAULT_LOG_COUNT = 10
 DEFAULT_LOG_MAX_BYTES = 10000000
 WORKER_LOGGER_NAME = 'worker'
 
+class ExtendedEncoder(json.JSONEncoder):
+    def default(self, o):
+        if hasattr(o, '__dict__'):
+            return o.__dict__
+        else:
+            return json.JSONEncoder.default(self, o)
+        
 json_encode = lambda x: json.dumps(x, cls=ExtendedEncoder, ensure_ascii=False, separators=(',', ':'))
 json_decode = lambda x: json.loads(x)
 
@@ -74,19 +82,19 @@ class Worker(object):
         fh.setFormatter(formatter)
         self._logger.addHandler(fh)
         self._pid = os.getpid()
-		if os.name != 'nt':
-			self._ppid = os.getppid()
-		else:
-			self._ppid = -1
+        if os.name != 'nt':
+            self._ppid = os.getppid()
+        else:
+            self._ppid = -1
         threading.Timer(60, self._check_parent).start()
         sys.stdout = StreamToLogger(self._logger)
         self.processor_provider = ProcessorsProvider(self._logger, sub_modules_to_scan)
         
     def _check_parent(self):
-		if os.name!='nt':
-			if (self._ppid != os.getppid()):
-				self._logger.error("parent has been changed, exiting..")
-				os._exit(-1)
+        if os.name!='nt':
+            if (self._ppid != os.getppid()):
+                self._logger.error("parent has been changed, exiting..")
+                os._exit(-1)
         
     def _ack(self, workMessage, triggeredTasks):
         ack_response = {java_python_tokens.COMMAND: java_python_tokens.ACK}

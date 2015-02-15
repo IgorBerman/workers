@@ -22,6 +22,8 @@ import org.springframework.amqp.support.converter.JsonMessageConverter;
 import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.SimpleThreadScope;
 import org.springframework.retry.backoff.ExponentialBackOffPolicy;
@@ -59,7 +61,6 @@ import com.worker.framework.tenant.MultiTenantMessageListenerAdapter;
 
 @Configuration
 public class WorkerFrameworkSpringConfiguration {    
-    private static final String WORKER_FRAMEWORK_WORKER_WORKER_PY = "worker_framework/worker/worker.py";
 	private static final String THREAD_SCOPE = "thread";//used also in ctx.xml
     private static final String DEFAULT_EXCHANGE = "";
     @Inject private WorkerProperties properties;
@@ -194,9 +195,8 @@ public class WorkerFrameworkSpringConfiguration {
         }
 
         try {
-        	File workerPyFile = new File(getClass().getClassLoader().getResource(WORKER_FRAMEWORK_WORKER_WORKER_PY).getPath());
-			return new PythonWorkerConf(workerPyFile.getParentFile().getParentFile().getParentFile().getAbsolutePath(), properties.getPidDir(), connectionUrls,
-					properties.getPythonBinPath(), workerPyFile.getAbsolutePath(), properties.getPythonLogPathPrefix());
+			return new PythonWorkerConf(properties.getPythonCodeDir(), properties.getPidDir(), connectionUrls,
+					properties.getPythonBinPath(), properties.getPythonSubprocessMain(), properties.getPythonLogPathPrefix());
 		} catch (Exception e) {
 			throw new IllegalStateException("Unable to get path  of worker.py", e);
 		}

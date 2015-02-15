@@ -61,6 +61,10 @@ public class WorkerPropertiesImpl implements WorkerProperties {
     
     @Value("${lowPriority.processors.time.threshold}") private Long lowPriorityProcessorsTimeThreshold;
 
+    @Value("${python.code.dir}")private String pythonCodeDir;
+
+    @Value("${python.subprocess.main}") private String pythonSubprocessMain;
+
     @Override
     public String getPidDir() {
         return pidDir;
@@ -199,6 +203,14 @@ public class WorkerPropertiesImpl implements WorkerProperties {
     @Override
     public String getLowQueueName() {
         return WorkersConstants.DEFAUL_LOW_QUEUE_PREFIX + queueName;
-    }    
+    }
+	@Override
+	public String getPythonCodeDir() {
+		return pythonCodeDir;
+	}
+	@Override
+	public String getPythonSubprocessMain() {
+		return pythonSubprocessMain;
+	}    
     
 }

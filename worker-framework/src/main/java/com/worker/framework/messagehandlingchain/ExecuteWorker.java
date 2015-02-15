@@ -18,7 +18,7 @@ public class ExecuteWorker implements WMProcessor {
     }
 
     @Override
-    public List<WorkMessage> handle(WorkMessage input) throws Exception {
+	public List<WorkMessage> handle(WorkMessage input) throws Exception {
         String task = input.getTask();
         for (Worker worker : workers) {
             if (worker.supportsTask(task)) {

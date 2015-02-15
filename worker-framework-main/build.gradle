@@ -7,23 +7,29 @@ dependencies {
     
     compile project(':tenant-framework-api')
     compile project(':worker-framework-api')
-    compile project(':worker-framework')
+    compile project(':worker-framework')//TODO check if it can be runtime and if not - why
     
     runtime project(':tenant-framework')
     runtime project(':tenant-dal')
     
     runtime project(':worker-test-processors')
-
-    testCompile project.spec['commons_exec']
     
+    runtime project(path: ':worker-framework', configuration: 'python')
+    
+    testCompile project.spec['commons_exec'] 
 }
 
-applicationDistribution.exclude('**/*.pyc')
     
 mainClassName = "com.worker.cli.ConsumersMain"
 applicationDefaultJvmArgs = ["-Duser.timezone=GMT", "-Dfile.encoding=UTF-8", "-Djava.awt.headless=true", "-Dcom.worker.logs=/var/log/workers", "-Dpid.dir=/tmp/var/run/workers", "-Dcode.dir=/u/apps/workers/current/worker-framework-main", "-Dpython.logs.cleanup=false", "-Dcom.greylog.host="]
 
-build.dependsOn 'distZip'
+startScripts {  
+  doLast { 
+    unixScript.text = unixScript.text.replace('exec "$JAVACMD"', 'export PYTHON_PATH=`find -L $APP_HOME/lib -name *python.zip | tr \'\\n\' \':\'` && exec "$JAVACMD"')  
+  }  
+}
+
+build.dependsOn 'distTar'
 
 test {
     systemProperties['com.workers.logs'] = '/tmp'

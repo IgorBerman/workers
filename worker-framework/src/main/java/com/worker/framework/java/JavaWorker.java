@@ -5,6 +5,8 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +19,7 @@ import com.worker.shared.WorkMessage;
 
 @Component
 public class JavaWorker implements Worker {
-
+	public static Logger logger = LoggerFactory.getLogger(JavaWorker.class);
     @Autowired(required=false) private List<WorkMessageProcessor> processors;
     private volatile Map<String, WorkMessageProcessor> processorsMap;    
 
@@ -32,6 +34,7 @@ public class JavaWorker implements Worker {
             String processorName = processor.getName();
             processorsMap.put(processorName, processor);
         }
+        logger.info("Supported java processors: " + processorsMap.keySet());
     }
 
     @Override

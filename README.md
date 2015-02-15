@@ -6,6 +6,9 @@ This is extract from internal production code.
 * it has "multitenant" support(each message will be marked with tenant id), services can depend on current tenant id in some way(e.g. connection to tenant db)
 * besides java processors only python processors are supported(java process gets message from rabbitmq and forwards it to python subprocess)
 * it supports dependency between processing(when few tasks should be "joined" at the end(like barrier task or "join" task)
+## prerequisites
+* vagrant with fabric plugin
+* java6+
 
 ## quick start
 * git clone https://github.com/rapen/workers.git

@@ -1,5 +1,6 @@
 apply plugin: 'java'
 
+
 dependencies {
     compile project.spec['spring_beans']
     compile project.spec['spring_context']
@@ -29,4 +30,17 @@ dependencies {
 
     testCompile project.spec['commons_exec']
     
+}
+
+configurations {
+	python
+}
+task pythonCodeZip(type:Zip) {
+	baseName = "worker-framework-python" 
+	from 'src/main/python'
+	exclude '**/**.pyc'
+}
+
+artifacts {
+    python pythonCodeZip
 }
