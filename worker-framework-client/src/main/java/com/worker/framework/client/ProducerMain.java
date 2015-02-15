@@ -34,5 +34,6 @@ public class ProducerMain {
 				.getBean(MessageProducerService.class);
 		producerService.submit("tenantId", new WorkMessage(args[0],
 				new ArrayList<WorkMessageArg>()));
+		ctx.close();
 	}
 }
