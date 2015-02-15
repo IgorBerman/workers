@@ -1,5 +1,4 @@
-package com.worker.framework.internalapi;
-
+package com.worker.framework.api;
 
 public interface WorkerProperties extends RoutingProperties {
     

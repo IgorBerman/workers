@@ -6,6 +6,7 @@ include 'tenant-sample-app'
 include 'worker-framework'
 include 'worker-framework-api'
 include 'worker-framework-shared'
+include 'worker-framework-postgres'
 
 include 'worker-test-processors'
 

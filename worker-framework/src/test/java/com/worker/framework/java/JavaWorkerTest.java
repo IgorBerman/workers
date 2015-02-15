@@ -21,7 +21,7 @@ import com.worker.shared.WorkMessageArg;
 
 @RunWith(value = MockitoJUnitRunner.class)
 public class JavaWorkerTest {
-    private static final String TASK_NAME = "TaskName";
+    private static final String TASK_NAME = "TaskNameProcessor";
 
     @Mock private WorkMessageProcessor processor;
     @Mock private List<WorkMessageProcessor> processors;
@@ -38,6 +38,7 @@ public class JavaWorkerTest {
         Mockito.when(processors.iterator()).thenReturn(mockIterator);
         Mockito.when(mockIterator.hasNext()).thenReturn(true, false);
         Mockito.when(mockIterator.next()).thenReturn(processor);
+        Mockito.when(processor.getName()).thenReturn(TASK_NAME);
     }
 
     @Test

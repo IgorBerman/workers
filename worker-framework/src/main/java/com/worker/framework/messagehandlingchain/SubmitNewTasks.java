@@ -5,7 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.worker.framework.internalapi.RoutingProperties;
+import com.worker.framework.api.RoutingProperties;
 import com.worker.framework.tenant.MultiTenantAmqpTemplate;
 import com.worker.shared.WorkMessage;
 

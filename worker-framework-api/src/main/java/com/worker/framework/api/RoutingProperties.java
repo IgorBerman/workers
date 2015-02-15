@@ -1,4 +1,4 @@
-package com.worker.framework.internalapi;
+package com.worker.framework.api;
 
 public interface RoutingProperties {
     String getErrorQueueName();

@@ -45,7 +45,7 @@ public class SubmitJoinMessageTest {
         submitter.handle(input);
         
         verify(delegator, times(1)).handle(input);
-        verify(messagesTemplate, times(0)).convertAndSend(Mockito.anyString(), Mockito.any());
+        verify(messagesTemplate, times(0)).convertAndSend(Mockito.anyString(), Mockito.any(WorkMessage.class));
     }
     
     @Test

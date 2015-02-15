@@ -1,4 +1,4 @@
-package com.worker.framework.service;
+package com.worker.framework.postgres.service;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -27,8 +27,8 @@ import org.springframework.dao.DuplicateKeyException;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.worker.framework.dal.mapper.WorkMessageJoinMapper;
-import com.worker.framework.dal.mapper.WorkMessageJoinStatus;
+import com.worker.framework.postgres.mapper.WorkMessageJoinMapper;
+import com.worker.framework.postgres.mapper.WorkMessageJoinStatus;
 import com.worker.shared.JoinState;
 import com.worker.shared.WorkMessageJoinDelta;
 

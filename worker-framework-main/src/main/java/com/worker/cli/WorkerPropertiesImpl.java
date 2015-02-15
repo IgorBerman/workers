@@ -3,7 +3,7 @@ package com.worker.cli;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.worker.framework.internalapi.WorkerProperties;
+import com.worker.framework.api.WorkerProperties;
 import com.worker.shared.WorkersConstants;
 
 

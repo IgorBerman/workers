@@ -20,7 +20,7 @@ import com.codahale.metrics.health.HealthCheckRegistry;
 import com.codahale.metrics.servlets.AdminServlet;
 import com.codahale.metrics.servlets.HealthCheckServlet;
 import com.codahale.metrics.servlets.MetricsServlet;
-import com.worker.framework.internalapi.WorkerProperties;
+import com.worker.framework.api.WorkerProperties;
 
 
 @Component

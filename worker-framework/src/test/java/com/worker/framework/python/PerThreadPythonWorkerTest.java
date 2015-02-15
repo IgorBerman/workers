@@ -138,9 +138,9 @@ public class PerThreadPythonWorkerTest {
         WorkMessage input = new WorkMessage();
         PythonResponse pythonResponse = pythonWorker.executePython(input);
         Assert.assertEquals(pythonResponse, response);
-        Assert.assertTrue(pythonWorker.supportsTask("a"));
-        Assert.assertTrue(pythonWorker.supportsTask("b"));
-        Assert.assertTrue(pythonWorker.supportsTask("c"));
+        Assert.assertTrue(pythonWorker.supportsTask("aProcessor"));
+        Assert.assertTrue(pythonWorker.supportsTask("bProcessor"));
+        Assert.assertTrue(pythonWorker.supportsTask("cProcessor"));
         Assert.assertFalse(pythonWorker.supportsTask("d"));
         Assert.assertEquals(1, pythonWorker.getSubpid().intValue());
         Assert.assertNotNull(pythonWorker.getReaderThread());
@@ -235,7 +235,7 @@ public class PerThreadPythonWorkerTest {
             PythonResponse response = new PythonResponse();
             response.setCommand(Command.ACK);
             Mockito.when(process.readResponse())
-                   .thenThrow(new IOException("reader throws io exception"))
+                   .thenThrow(new IOException("testing - reader throws io exception"))
                    .thenReturn(response);
             pythonWorker.start();
 
@@ -245,10 +245,10 @@ public class PerThreadPythonWorkerTest {
                 e.printStackTrace();
             }
             WorkMessage input = new WorkMessage();
-            Assert.assertTrue(pythonWorker.supportsTask("a"));
-            Assert.assertTrue(pythonWorker.supportsTask("b"));
-            Assert.assertTrue(pythonWorker.supportsTask("c"));
-            Assert.assertFalse(pythonWorker.supportsTask("d"));
+            Assert.assertTrue(pythonWorker.supportsTask("aProcessor"));
+            Assert.assertTrue(pythonWorker.supportsTask("bProcessor"));
+            Assert.assertTrue(pythonWorker.supportsTask("cProcessor"));
+            Assert.assertFalse(pythonWorker.supportsTask("dProcessor"));
             Assert.assertEquals(1, pythonWorker.getSubpid().intValue());
             Thread readerThread = pythonWorker.getReaderThread();
             Assert.assertNotNull(readerThread);
@@ -266,10 +266,10 @@ public class PerThreadPythonWorkerTest {
 
             PythonResponse pythonResponse = pythonWorker.executePython(input);
             Assert.assertEquals(pythonResponse, response);
-            Assert.assertTrue(pythonWorker.supportsTask("a"));
-            Assert.assertFalse(pythonWorker.supportsTask("b"));
-            Assert.assertTrue(pythonWorker.supportsTask("c"));
-            Assert.assertTrue(pythonWorker.supportsTask("d"));
+            Assert.assertTrue(pythonWorker.supportsTask("aProcessor"));
+            Assert.assertFalse(pythonWorker.supportsTask("bProcessor"));
+            Assert.assertTrue(pythonWorker.supportsTask("cProcessor"));
+            Assert.assertTrue(pythonWorker.supportsTask("dProcessor"));
             Assert.assertEquals(2, pythonWorker.getSubpid().intValue());
             Assert.assertFalse(readerThread == pythonWorker.getReaderThread());
             Assert.assertFalse(writerThread == pythonWorker.getWriterThread());
@@ -307,10 +307,10 @@ public class PerThreadPythonWorkerTest {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            Assert.assertTrue(pythonWorker.supportsTask("a"));
-            Assert.assertTrue(pythonWorker.supportsTask("b"));
-            Assert.assertTrue(pythonWorker.supportsTask("c"));
-            Assert.assertFalse(pythonWorker.supportsTask("d"));
+            Assert.assertTrue(pythonWorker.supportsTask("aProcessor"));
+            Assert.assertTrue(pythonWorker.supportsTask("bProcessor"));
+            Assert.assertTrue(pythonWorker.supportsTask("cProcessor"));
+            Assert.assertFalse(pythonWorker.supportsTask("dProcessor"));
             Assert.assertEquals(1, pythonWorker.getSubpid().intValue());
             Thread readerThread = pythonWorker.getReaderThread();
             Assert.assertNotNull(readerThread);
@@ -332,10 +332,10 @@ public class PerThreadPythonWorkerTest {
 
             PythonResponse pythonResponse = pythonWorker.executePython(inputAfterRestart);
             Assert.assertEquals(pythonResponse, response);
-            Assert.assertTrue(pythonWorker.supportsTask("a"));
-            Assert.assertFalse(pythonWorker.supportsTask("b"));
-            Assert.assertTrue(pythonWorker.supportsTask("c"));
-            Assert.assertTrue(pythonWorker.supportsTask("d"));
+            Assert.assertTrue(pythonWorker.supportsTask("aProcessor"));
+            Assert.assertFalse(pythonWorker.supportsTask("bProcessor"));
+            Assert.assertTrue(pythonWorker.supportsTask("cProcessor"));
+            Assert.assertTrue(pythonWorker.supportsTask("dProcessor"));
             Assert.assertEquals(2, pythonWorker.getSubpid().intValue());
             Assert.assertFalse(readerThread == pythonWorker.getReaderThread());
             Assert.assertFalse(writerThread == pythonWorker.getWriterThread());

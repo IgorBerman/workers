@@ -19,7 +19,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.collect.ImmutableList;
-import com.worker.framework.internalapi.RoutingProperties;
+import com.worker.framework.api.RoutingProperties;
 import com.worker.framework.tenant.MultiTenantAmqpTemplate;
 import com.worker.shared.WorkMessage;
 
@@ -45,7 +45,7 @@ public class SubmitNewTasksTest {
         submitter.handle(input);
         verify(delegator, times(1)).handle(input);
         verify(workerMessagesTemplate, times(0)).convertAndSend(Mockito.any());
-        verify(workerMessagesTemplate, times(0)).convertAndSend(Mockito.anyString(), Mockito.any());
+        verify(workerMessagesTemplate, times(0)).convertAndSend(Mockito.anyString(), Mockito.any(WorkMessage.class));
     }
     
     @Test

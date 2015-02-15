@@ -7,10 +7,12 @@ dependencies {
     
     compile project(':tenant-framework-api')
     compile project(':worker-framework-api')
-    compile project(':worker-framework')//TODO check if it can be runtime and if not - why
     
     runtime project(':tenant-framework')
     runtime project(':tenant-dal')
+    
+    runtime project(':worker-framework')//TODO check if it can be runtime and if not - why
+    runtime project(':worker-framework-postgres')
     
     runtime project(':worker-test-processors')
     

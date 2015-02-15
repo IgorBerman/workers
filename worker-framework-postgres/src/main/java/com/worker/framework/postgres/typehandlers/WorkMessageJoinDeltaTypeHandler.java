@@ -1,4 +1,4 @@
-package com.worker.framework.dal.typehandlers;
+package com.worker.framework.postgres.typehandlers;
 
 import java.sql.Array;
 import java.sql.CallableStatement;

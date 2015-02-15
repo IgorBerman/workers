@@ -1,4 +1,4 @@
-package com.worker.framework.dal.mapper;
+package com.worker.framework.postgres.mapper;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;

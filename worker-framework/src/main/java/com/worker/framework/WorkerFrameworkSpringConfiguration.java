@@ -1,8 +1,6 @@
 package com.worker.framework;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ThreadFactory;
 
@@ -22,8 +20,6 @@ import org.springframework.amqp.support.converter.JsonMessageConverter;
 import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.support.SimpleThreadScope;
 import org.springframework.retry.backoff.ExponentialBackOffPolicy;
@@ -39,9 +35,9 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.tenant.framework.CurrentTenant;
 import com.tenant.framework.TenantDbParamsTemplateResolver;
 import com.tenant.framework.TenantIdsResolver;
+import com.worker.framework.api.WorkerProperties;
 import com.worker.framework.internalapi.ControlQueueMessageListener;
 import com.worker.framework.internalapi.Worker;
-import com.worker.framework.internalapi.WorkerProperties;
 import com.worker.framework.internalapi.WorkerQueueMessageListener;
 import com.worker.framework.messagehandlingchain.ExecuteWorker;
 import com.worker.framework.messagehandlingchain.SubmitJoinMessage;

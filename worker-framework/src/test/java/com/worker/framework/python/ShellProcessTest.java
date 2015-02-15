@@ -11,6 +11,8 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -32,6 +34,11 @@ public class ShellProcessTest {
 
     @Mock private ObjectMapper objectMapper;
     @InjectMocks ShellProcess shellProcess;
+
+    @Before
+    public void assume() {
+    	Assume.assumeFalse(System.getProperty("os.name").toLowerCase().contains("win"));
+    }
 
     @Test
     public void test() throws IOException, Exception {

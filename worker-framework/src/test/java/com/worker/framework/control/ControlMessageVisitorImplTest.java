@@ -19,7 +19,7 @@ import org.springframework.amqp.core.AmqpTemplate;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableSet;
-import com.worker.framework.internalapi.RoutingProperties;
+import com.worker.framework.api.RoutingProperties;
 import com.worker.framework.service.WorkMessageJoinService;
 import com.worker.shared.JoinState;
 import com.worker.shared.JoinedTaskFailed;

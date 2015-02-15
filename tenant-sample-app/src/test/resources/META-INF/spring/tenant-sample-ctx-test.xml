@@ -34,11 +34,6 @@
 
 	<context:component-scan base-package="com.tenant.sample.service" />
 
-	<bean id="log4jInitializer"
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean"
-		p:staticMethod="org.springframework.util.Log4jConfigurer.initLogging"
-		p:arguments="classpath:log4j.xml" />
-
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
 		p:dataSource-ref="sampleDataSource" />
@@ -61,7 +56,7 @@
 	</bean>
 
 	<bean id="currentTenant" class="com.tenant.framework.CurrentTenantThreadLocal" />
-	<bean id="templateResolver" class="com.tenant.framework.TenantParamsTemplateResolverImpl"/>
+	<bean id="templateResolver" class="com.tenant.sample.TenantDbParamsTemplateResolverImpl"/>
 
 	<bean id="sampleDataSource" class="com.tenant.dal.TenantRoutingDataSource"
 		p:tenantIdsResolver-ref="tenantIdsResolver" p:dataSourceLookup-ref="tenantDataSourceLookup"

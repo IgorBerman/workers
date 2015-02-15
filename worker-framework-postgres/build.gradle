@@ -1,0 +1,23 @@
+apply plugin: 'java'
+
+
+dependencies {
+    compile project.spec['spring_beans']
+    compile project.spec['spring_context']
+    compile project.spec['spring_core']
+    compile project.spec['spring_jdbc']
+    compile project.spec['commons_configuration']
+    compile project.spec['jackson']
+    compile project.spec['mybatis']
+    compile project.spec['mybatis_spring']
+    compile project.spec['guava']
+    compile project.spec['javax_inject']
+    compile project.spec['postgres_connector']
+    
+    compile project(':tenant-framework-api')
+    compile project(':worker-framework')
+
+    testCompile project.spec['commons_exec']
+    
+}
+

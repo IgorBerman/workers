@@ -13,6 +13,8 @@ import org.apache.commons.exec.ExecuteException;
 import org.apache.commons.exec.ExecuteResultHandler;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
+import org.junit.Assume;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -21,7 +23,7 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import com.google.common.io.Files;
-import com.worker.framework.internalapi.WorkerProperties;
+import com.worker.framework.api.WorkerProperties;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,6 +31,11 @@ public class ShellProcessesCleanupTest {
 
     @Mock WorkerProperties properties;
     @InjectMocks ShellProcessesCleanup cleanup;
+    
+    @Before
+    public void assume() {
+    	Assume.assumeFalse(System.getProperty("os.name").toLowerCase().contains("win"));
+    }
 
     @Test
     public void testCleanupOfProcesses() throws Exception {

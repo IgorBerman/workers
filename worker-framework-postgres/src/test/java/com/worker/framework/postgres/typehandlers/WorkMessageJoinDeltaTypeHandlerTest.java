@@ -1,4 +1,4 @@
-package com.worker.framework.dal.typehandlers;
+package com.worker.framework.postgres.typehandlers;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.mockito.Mockito.times;

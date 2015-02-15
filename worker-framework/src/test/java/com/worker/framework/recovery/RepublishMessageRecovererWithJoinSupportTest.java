@@ -19,8 +19,9 @@ import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.support.converter.MessageConverter;
 
 import com.google.common.collect.ImmutableSet;
-import com.worker.framework.internalapi.RoutingProperties;
+import com.worker.framework.api.RoutingProperties;
 import com.worker.framework.tenant.MultiTenantAmqpTemplate;
+import com.worker.shared.ControlMessage;
 import com.worker.shared.JoinedTaskFailed;
 import com.worker.shared.WorkMessage;
 import com.worker.shared.WorkMessagesJoinState;
@@ -51,7 +52,7 @@ public class RepublishMessageRecovererWithJoinSupportTest {
         when(messageConverter.fromMessage(message)).thenReturn(new JoinedTaskFailed());
         recoverer.recover(message, new NullPointerException("bug"));
         verify(controlMessageTemplate, times(0)).convertAndSend(Mockito.any());
-        verify(controlMessageTemplate, times(0)).convertAndSend(Mockito.anyString(), Mockito.any());
+        verify(controlMessageTemplate, times(0)).convertAndSend(Mockito.anyString(), Mockito.any(ControlMessage.class));
     }
     
     @Test
@@ -63,7 +64,7 @@ public class RepublishMessageRecovererWithJoinSupportTest {
         when(messageConverter.fromMessage(message)).thenReturn(new WorkMessage());
         recoverer.recover(message, new NullPointerException("bug"));
         verify(controlMessageTemplate, times(0)).convertAndSend(Mockito.any());
-        verify(controlMessageTemplate, times(0)).convertAndSend(Mockito.anyString(), Mockito.any());
+        verify(controlMessageTemplate, times(0)).convertAndSend(Mockito.anyString(), Mockito.any(ControlMessage.class));
     }
     
     @Test
@@ -79,7 +80,7 @@ public class RepublishMessageRecovererWithJoinSupportTest {
         when(messageConverter.fromMessage(message)).thenReturn(workMessage);
         recoverer.recover(message, new NullPointerException("bug"));
         verify(controlMessageTemplate, times(1)).convertAndSend(messageCaptor.capture());
-        verify(controlMessageTemplate, times(0)).convertAndSend(Mockito.anyString(), Mockito.any());
+        verify(controlMessageTemplate, times(0)).convertAndSend(Mockito.anyString(), Mockito.any(ControlMessage.class));
         assertTrue(messageCaptor.getValue() instanceof JoinedTaskFailed);
         JoinedTaskFailed failedMessage = (JoinedTaskFailed) messageCaptor.getValue();
         JoinedTaskFailed expectedFailedMessage = new JoinedTaskFailed(joinId, ImmutableSet.of(workMessage), sinkMessage, "some reason");

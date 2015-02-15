@@ -1,4 +1,4 @@
-package com.worker.framework.service;
+package com.worker.framework.postgres.service;
 
 import java.util.ConcurrentModificationException;
 import java.util.Date;
@@ -15,8 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.google.common.base.Optional;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
-import com.worker.framework.dal.mapper.WorkMessageJoinMapper;
-import com.worker.framework.dal.mapper.WorkMessageJoinStatus;
+import com.worker.framework.postgres.mapper.WorkMessageJoinMapper;
+import com.worker.framework.postgres.mapper.WorkMessageJoinStatus;
+import com.worker.framework.service.WorkMessageJoinService;
 import com.worker.shared.WorkMessageJoinDelta;
 
 @Service
