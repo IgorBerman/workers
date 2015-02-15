@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'distribution'
 
 dependencies {
     compile project.spec['guava']
@@ -9,10 +8,3 @@ dependencies {
     
     compile project(':worker-framework-api')
 }
-distributions.main.contents {
-    into('lib') {
-        from(jar)
-        from(project.configurations.runtime)
-    }
-}
-build.dependsOn 'distZip'

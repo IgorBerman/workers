@@ -17,14 +17,14 @@
         http://www.springframework.org/schema/tx
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
-    <bean id="templateResolver" class="com.tenant.framework.TenantDbParamsTemplateResolverImpl"/>
+    <bean id="templateResolver" class="com.worker.framework.postgres.service.TenantDbParamsTemplateResolverImpl"/>
 
     <bean id="tenantIdsResolver" class="com.worker.framework.tenant.PropertiesFileTenantIdsResolver"/>
 
     <bean id="currentTenant" class="com.tenant.framework.CurrentTenantThreadLocal"/>
     
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
-        p:basePackage="com.worker.framework.dal.mapper" />
+        p:basePackage="com.worker.framework.postgres.mapper" />
 
 	<bean id="mybatisLog"
 		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
