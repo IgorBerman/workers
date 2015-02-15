@@ -49,7 +49,6 @@ class java_python_tokens:
     ERROR = "ERROR"
     MSG = "msg"
     END = "end"
-    CONNECTION_URLS = 'connectionUrls'
     DB_URL = 'dbUrl'
     
 class StreamToLogger(object):
@@ -86,8 +85,9 @@ class Worker(object):
             self._ppid = os.getppid()
         else:
             self._ppid = -1
-        threading.Timer(60, self._check_parent).start()
         sys.stdout = StreamToLogger(self._logger)
+        print sys.path
+        threading.Timer(60, self._check_parent).start()
         self.processor_provider = ProcessorsProvider(self._logger, sub_modules_to_scan)
         
     def _check_parent(self):
@@ -112,16 +112,8 @@ class Worker(object):
         self._logger.info("loading processors..")
         self.processor_provider.load()
         if init_component:
-            setup_info = self._initComponent(self.processor_provider.get_all_processor_names())
-        self._logger.info("initializing connections..")
-        connention_urls_dict = self._getConnectionUrlsDict(setup_info[java_python_tokens.CONNECTION_URLS])
+            self._initComponent(self.processor_provider.get_all_processor_names())
 
-    def _getConnectionUrlsDict(self, connectionUrlsList):
-        conn_dict = {}
-        for connection_url in connectionUrlsList:
-            conn_dict[connection_url[java_python_tokens.TENANT_ID]] = connection_url[java_python_tokens.DB_URL]
-        return conn_dict
-    
     def process(self, tenantId, workMessage):
         """
         run suitable processor

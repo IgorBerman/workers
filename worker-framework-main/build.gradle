@@ -12,11 +12,13 @@ dependencies {
     runtime project(':tenant-dal')
     
     runtime project(':worker-framework')//TODO check if it can be runtime and if not - why
+    runtime project(path: ':worker-framework', configuration: 'python')
+    
     runtime project(':worker-framework-postgres')
     
     runtime project(':worker-test-processors')
+    runtime project(path: ':worker-test-processors', configuration: 'python')
     
-    runtime project(path: ':worker-framework', configuration: 'python')
     
     testCompile project.spec['commons_exec'] 
 }
@@ -27,7 +29,7 @@ applicationDefaultJvmArgs = ["-Duser.timezone=GMT", "-Dfile.encoding=UTF-8", "-D
 
 startScripts {  
   doLast { 
-    unixScript.text = unixScript.text.replace('exec "$JAVACMD"', 'export PYTHON_PATH=`find -L $APP_HOME/lib -name *python.zip | tr \'\\n\' \':\'` && exec "$JAVACMD"')  
+    unixScript.text = unixScript.text.replace('exec "$JAVACMD"', 'export PYTHONPATH=`find -L $APP_HOME/lib -name "*python.zip" | tr \'\\n\' \':\'` && exec "$JAVACMD"')  
   }  
 }
 

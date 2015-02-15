@@ -30,7 +30,7 @@
 		p:dataSourceLookup-ref="tenantDataSourceLookup"
 		p:currentTenant-ref="currentTenant" />
 
-    <alias name="tenantDataSource" alias="confDataSource"/>
+	<bean id="templateResolver" class="com.worker.framework.postgres.service.TenantDbParamsTemplateResolverImpl"/>
 
 	<bean id="tenantDataSourceLookup" class="com.tenant.dal.TenantDataSourceLookup"
 		p:driver="org.postgresql.Driver"

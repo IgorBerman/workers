@@ -35,7 +35,7 @@ public class ShellProcess {
     public PythonWorkerInitResponse launch(PythonWorkerConf pythonWorkerConf) throws IOException {
         ProcessBuilder builder = new ProcessBuilder(pythonWorkerConf.getCommand());
         builder.directory(new File(pythonWorkerConf.getCodeDir()));
-        builder.environment().put("PYTHONPATH", pythonWorkerConf.getCodeDir());
+        //builder.environment().put("PYTHONPATH", pythonWorkerConf.getCodeDir());
         try {
             subprocess = builder.start();
             processIn = new DataOutputStream(subprocess.getOutputStream());

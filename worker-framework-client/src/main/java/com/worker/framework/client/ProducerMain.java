@@ -1,7 +1,5 @@
 package com.worker.framework.client;
 
-import java.util.ArrayList;
-
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -9,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
+import com.google.common.collect.Lists;
 import com.worker.shared.WorkMessage;
 import com.worker.shared.WorkMessageArg;
 
@@ -32,8 +31,8 @@ public class ProducerMain {
 				ProducerMainConfiguration.class);
 		MessageProducerService producerService = ctx
 				.getBean(MessageProducerService.class);
-		producerService.submit("tenantId", new WorkMessage(args[0],
-				new ArrayList<WorkMessageArg>()));
+		WorkMessageArg arg = new WorkMessageArg("im", 0);
+		producerService.submit("tenantId", new WorkMessage("DependencyTreeProcessor", Lists.newArrayList(arg)));
 		ctx.close();
 	}
 }
