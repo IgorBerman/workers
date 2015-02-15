@@ -30,11 +30,8 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.tenant.framework.CurrentTenant;
-import com.tenant.framework.TenantDbParamsTemplateResolver;
-import com.tenant.framework.TenantIdsResolver;
 import com.worker.framework.api.WorkerProperties;
 import com.worker.framework.internalapi.ControlQueueMessageListener;
 import com.worker.framework.internalapi.Worker;
@@ -47,7 +44,6 @@ import com.worker.framework.messagehandlingchain.WMProcessor;
 import com.worker.framework.messagehandlingchain.WatchdogProcessingTime;
 import com.worker.framework.monitoring.ProcessorsFinishInTimeWatchDogAndTimer;
 import com.worker.framework.python.PythonWorkerConf;
-import com.worker.framework.python.PythonWorkerConnectionUrl;
 import com.worker.framework.recovery.LogOnRetryListener;
 import com.worker.framework.recovery.RepublishMessageRecovererForControlMessages;
 import com.worker.framework.recovery.RepublishMessageRecovererWithJoinSupport;
@@ -62,8 +58,6 @@ public class WorkerFrameworkSpringConfiguration {
     @Inject private WorkerProperties properties;
     @Inject private CurrentTenant currentTenant;
     @Inject private ControlQueueMessageListener controlListener;
-    @Inject private TenantIdsResolver tenantIdsResolver;
-    @Inject private TenantDbParamsTemplateResolver templateResolver;
     @Inject private List<Worker> workers;
     @Inject private ProcessorsFinishInTimeWatchDogAndTimer watchdog;
 
@@ -181,17 +175,8 @@ public class WorkerFrameworkSpringConfiguration {
         File file = new File(properties.getPidDir());
         file.mkdirs();
 
-        List<PythonWorkerConnectionUrl> connectionUrls = Lists.newArrayList();
-        for (String tenantId : tenantIdsResolver.getIds()) {
-            connectionUrls.add(new PythonWorkerConnectionUrl(tenantId, properties.getDatabaseDialect(),
-                    properties.getDatabaseHost(),
-                    templateResolver.resolveDbName(properties.getDatabaseName(), tenantId),
-                    templateResolver.resolveUser(properties.getDatabaseUsername(), tenantId),
-                    templateResolver.resolvePassword(properties.getDatabasePassword(), tenantId)));
-        }
-
         try {
-			return new PythonWorkerConf(properties.getPythonCodeDir(), properties.getPidDir(), connectionUrls,
+			return new PythonWorkerConf(properties.getPythonCodeDir(), properties.getPidDir(),
 					properties.getPythonBinPath(), properties.getPythonSubprocessMain(), properties.getPythonLogPathPrefix());
 		} catch (Exception e) {
 			throw new IllegalStateException("Unable to get path  of worker.py", e);

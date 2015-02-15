@@ -1,7 +1,6 @@
 package com.tenant.sample;
 
-import com.tenant.framework.TenantDbParamsTemplateResolver;
-
+import com.tenant.dal.TenantDbParamsTemplateResolver;
 
 public class TenantDbParamsTemplateResolverImpl implements TenantDbParamsTemplateResolver {
 

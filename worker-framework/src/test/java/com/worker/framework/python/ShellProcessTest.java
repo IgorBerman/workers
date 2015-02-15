@@ -21,7 +21,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.io.Files;
 import com.worker.framework.python.PythonResponse.Command;
@@ -52,13 +51,9 @@ public class ShellProcessTest {
         try {
             String tenantId = "mytenant";
 
-            PythonWorkerConnectionUrl url =
-                    new PythonWorkerConnectionUrl(tenantId, "postgresql", "host", "dbname", "username", "password");
-            List<PythonWorkerConnectionUrl> connectionUrls = Lists.newArrayList(url);
-
             String pythonPath = LinuxProcessTestUtils.getPythonBinPath();
             PythonWorkerConf pythonWorkerConf =
-                    new PythonWorkerConf(".", pidDir.getAbsolutePath(), connectionUrls, pythonPath,
+                    new PythonWorkerConf(".", pidDir.getAbsolutePath(), pythonPath,
                             "worker_framework/worker/worker.py", logDir.getAbsolutePath() + "/python-%s.log");
             PythonWorkerInitResponse initResponse = shellProcess.launch(pythonWorkerConf);
             Thread.sleep(5000);
@@ -116,13 +111,9 @@ public class ShellProcessTest {
         try {
             String tenantId = "mytenant";
 
-            PythonWorkerConnectionUrl url =
-                    new PythonWorkerConnectionUrl(tenantId, "postgresql", "host", "dbname", "username", "password");
-            List<PythonWorkerConnectionUrl> connectionUrls = Lists.newArrayList(url);
-
             String pythonPath = LinuxProcessTestUtils.getPythonBinPath();
             PythonWorkerConf pythonWorkerConf =
-                    new PythonWorkerConf(".", pidDir.getAbsolutePath(), connectionUrls, pythonPath,
+                    new PythonWorkerConf(".", pidDir.getAbsolutePath(), pythonPath,
                             "worker_framework/worker/worker.py", logDir.getAbsolutePath() + "/python-%s.log");
             PythonWorkerInitResponse initResponse = shellProcess.launch(pythonWorkerConf);
             Thread.sleep(5000);

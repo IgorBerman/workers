@@ -11,7 +11,6 @@ import org.springframework.jdbc.datasource.lookup.DataSourceLookupFailureExcepti
 import org.springframework.util.Assert;
 
 import com.google.common.collect.Maps;
-import com.tenant.framework.TenantDbParamsTemplateResolver;
 
 public class TenantDataSourceLookup implements DataSourceLookup, DisposableBean {    
     

@@ -1,14 +1,10 @@
 package com.worker.framework.python;
 
-import java.util.List;
-
-
 public class PythonWorkerConf {
 
     private String codeDir;
     private String PIDDir;
     private String[] command;
-    private List<PythonWorkerConnectionUrl> connectionUrls;
 
     public PythonWorkerConf() {
         super();
@@ -16,11 +12,9 @@ public class PythonWorkerConf {
 
     public PythonWorkerConf(String codeDir,
                             String pIDDir,
-                            List<PythonWorkerConnectionUrl> connectionUrls,
                             String... command) {
         this.codeDir = codeDir;
         this.PIDDir = pIDDir;
-        this.connectionUrls = connectionUrls;
         this.command = command;
     }
 
@@ -46,10 +40,6 @@ public class PythonWorkerConf {
 
     public void setCommand(String[] command) {
         this.command = command;
-    }
-
-    public List<PythonWorkerConnectionUrl> getConnectionUrls() {
-        return connectionUrls;
     }
 
 }
