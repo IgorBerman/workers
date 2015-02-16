@@ -28,7 +28,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   config.vm.network :private_network, ip: "192.168.33.10"
- 
+  
+  config.vm.provider :virtualbox do |vb|      
+    vb.customize ['modifyvm', :id, '--memory', 3000, '--cpus', 2]
+  end
+  
   # Load and start rabbitmq image
   config.vm.provision "docker" do |d|
     d.pull_images "rabbitmq"

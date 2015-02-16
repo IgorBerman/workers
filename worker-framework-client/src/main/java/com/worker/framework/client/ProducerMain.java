@@ -31,7 +31,7 @@ public class ProducerMain {
 				ProducerMainConfiguration.class);
 		MessageProducerService producerService = ctx
 				.getBean(MessageProducerService.class);
-		WorkMessageArg arg = new WorkMessageArg("im", 0);
+		WorkMessageArg arg = new WorkMessageArg("im", 1);
 		producerService.submit("tenantId", new WorkMessage("DependencyTreeProcessor", Lists.newArrayList(arg)));
 		ctx.close();
 	}

@@ -25,7 +25,7 @@ dependencies {
 
     
 mainClassName = "com.worker.cli.ConsumersMain"
-applicationDefaultJvmArgs = ["-Duser.timezone=GMT", "-Dfile.encoding=UTF-8", "-Djava.awt.headless=true", "-Dcom.worker.logs=/var/log/workers", "-Dpid.dir=/tmp/var/run/workers", "-Dcode.dir=/u/apps/workers/current/worker-framework-main", "-Dpython.logs.cleanup=false", "-Dcom.greylog.host="]
+applicationDefaultJvmArgs = ["-Xmx1000m", "-Duser.timezone=GMT", "-Dfile.encoding=UTF-8", "-Djava.awt.headless=true", "-Dcom.worker.logs=/var/log/workers", "-Dpid.dir=/tmp/var/run/workers", "-Dcode.dir=/u/apps/workers/current/worker-framework-main", "-Dpython.logs.cleanup=false", "-Dcom.greylog.host="]
 
 startScripts {  
   doLast { 
